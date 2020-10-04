@@ -6,7 +6,7 @@ buildscript {
     
     dependencies {
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
-        classpath "com.github.jengelman.gradle.plugins:shadow:2.0.1"
+        classpath "com.github.jengelman.gradle.plugins:shadow:5.0.0"
     }
 }
 
@@ -43,12 +43,20 @@ dependencies {
     implementation "io.ktor:ktor-client-apache:$ktor_version"
     testImplementation "io.ktor:ktor-server-tests:$ktor_version"
 }
-
+application {
+    mainClassName = "com.batcuevasoft.ApplicationKt"
+}
+configure([compileKotlin, compileTestKotlin]) {
+    kotlinOptions {
+        jvmTarget = "1.8"
+    }
+}
+shadowJar {
+    manifest {
+        attributes 'Main-Class': mainClassName
+    }
+}
 
 kotlin.experimental.coroutines = 'enable'
 
-shadowJar {
-    baseName = 'my-application'
-    classifier = null
-    version = null
-}
+
