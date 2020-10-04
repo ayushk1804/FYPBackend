@@ -1,5 +1,6 @@
 package com.vishwa.demo
 
+import io.ktor.application.Application
 import io.ktor.application.call
 import io.ktor.http.ContentType
 import io.ktor.response.respondText
@@ -9,32 +10,32 @@ import io.ktor.server.engine.embeddedServer
 import io.ktor.server.netty.Netty
 
 
-fun main()
-{
-    val server = embeddedServer(Netty, 8080) {
-        routing {
-            get("/") {
-                call.respondText("Hello, world Vishwa!", ContentType.Text.Plain)
-            }
-        }
-    }
-    server.start(wait = false)
-}
-
-//fun main(args: Array<String>): Unit = io.ktor.server.netty.EngineMain.main(args)
-
-//@Suppress("unused") // Referenced in application.conf
-//@kotlin.jvm.JvmOverloads
-//fun Application.module(testing: Boolean = false) {
+//fun main()
+//{
 //    val server = embeddedServer(Netty, 8080) {
 //        routing {
 //            get("/") {
-//                call.respondText("Hello, world!", ContentType.Text.Html)
+//                call.respondText("Hello, world Vishwa!", ContentType.Text.Plain)
 //            }
 //        }
 //    }
-//    server.start(wait = true)
+//    server.start(wait = false)
 //}
+
+fun main(args: Array<String>): Unit = io.ktor.server.netty.EngineMain.main(args)
+
+@Suppress("unused") // Referenced in application.conf
+@kotlin.jvm.JvmOverloads
+fun Application.module(testing: Boolean = false) {
+    val server = embeddedServer(Netty, 8080) {
+        routing {
+            get("/") {
+                call.respondText("Hello, world!", ContentType.Text.Html)
+            }
+        }
+    }
+    server.start(wait = true)
+}
 
 //fun FlowOrMetaDataContent.styleCss(builder: CSSBuilder.() -> Unit) {
 //    style(type = ContentType.Text.CSS.toString()) {
