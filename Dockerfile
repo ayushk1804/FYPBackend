@@ -20,16 +20,16 @@
 ###CMD ["java", "-server", "-XX:+UnlockExperimentalVMOptions", "-XX:+UseCGroupMemoryLimitForHeap", "-XX:InitialRAMFraction=2", "-XX:MinRAMFraction=2", "-XX:MaxRAMFraction=2", "-XX:+UseG1GC", "-XX:MaxGCPauseMillis=100", "-XX:+UseStringDeduplication", "-jar", "my-application.jar"]
 
 
+FROM alpine:3.9
+RUN apk add mongodb
+
+VOLUME /data/db
+EXPOSE 27017 28017
+CMD [ "mongod", "--bind_ip", "0.0.0.0" ]
 
 FROM openjdk:8 AS build
 #FROM mvertes/alpine-mongo
 #RUN apk add openjdk8
-
-FROM alpine:3.9
-RUN apk add mongodb
-VOLUME /data/db
-EXPOSE 27017 28017
-CMD [ "mongod", "--bind_ip", "0.0.0.0" ]
 
 RUN mkdir /appbuild
 COPY . /appbuild
