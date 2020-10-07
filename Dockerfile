@@ -55,7 +55,7 @@
 #
 #CMD ["sh", "-c", "java -server -XX:+UnlockExperimentalVMOptions -XX:+UseCGroupMemoryLimitForHeap -XX:InitialRAMFraction=2 -XX:MinRAMFraction=2 -XX:MaxRAMFraction=2 -XX:+UseG1GC -XX:MaxGCPauseMillis=100 -XX:+UseStringDeduplication -jar demo.jar"]
 ##CMD ["java -jar demo.jar"]
-FROM alpine:community
+FROM alpine:3.9
 
 RUN apk add mongodb
 
