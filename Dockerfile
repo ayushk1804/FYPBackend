@@ -39,7 +39,7 @@ EXPOSE 27017 28017
 #
 #
 #
-#RUN apk add openjdk8-jre
+RUN apk add openjdk8-jre
 #
 ##ENV APPLICATION_USER 1033
 #
