@@ -39,7 +39,7 @@ WORKDIR /appbuild
 RUN ./gradlew clean build
 
 #FROM mvertes/alpine-mongo
-RUN apk add openjdk8-jre
+#RUN apk add openjdk8-jre
 #RUN ["chown", "-r" ,"/root/run.sh"]
 #RUN ["chmod", "+x" ,"/root/run.sh"]
 ENV APPLICATION_USER 1033
