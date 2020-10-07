@@ -20,17 +20,16 @@
 ###CMD ["java", "-server", "-XX:+UnlockExperimentalVMOptions", "-XX:+UseCGroupMemoryLimitForHeap", "-XX:InitialRAMFraction=2", "-XX:MinRAMFraction=2", "-XX:MaxRAMFraction=2", "-XX:+UseG1GC", "-XX:MaxGCPauseMillis=100", "-XX:+UseStringDeduplication", "-jar", "my-application.jar"]
 
 
-#FROM alpine:3.9
-#
-#RUN apk add mongodb
-#
-#VOLUME /data/db
-#EXPOSE 27017 28017
-##RUN ["chmod","-R","go+w","/data/db"]
-##RUN chown -R /data/db
-#CMD [ "mongod", "--bind_ip", "0.0.0.0" ]
+FROM alpine:3.9
 
-FROM mvertes/alpine-mongo
+RUN apk add mongodb
+
+VOLUME /data/db
+EXPOSE 27017 28017
+#RUN ["chmod","-R","go+w","/data/db"]
+#RUN chown -R /data/db
+
+
 
 RUN apk add openjdk8-jre
 
@@ -41,12 +40,12 @@ RUN mkdir /app
 RUN chown -R $APPLICATION_USER /app
 
 USER $APPLICATION_USER
-#RUN chown $APPLICATION_USER:$APPLICATION_USER /data/db
+RUN chown $APPLICATION_USER:$APPLICATION_USER /data/db
 COPY ./build/libs/demo*all.jar /app/demo.jar
 
 WORKDIR /app
 #CMD ["sh", "-c", "java -server -XX:+UnlockExperimentalVMOptions -XX:+UseCGroupMemoryLimitForHeap -XX:InitialRAMFraction=2 -XX:MinRAMFraction=2 -XX:MaxRAMFraction=2 -XX:+UseG1GC -XX:MaxGCPauseMillis=100 -XX:+UseStringDeduplication -jar demo.jar"]
-
+CMD [ "mongod", "--bind_ip", "0.0.0.0" ]
 
 
 #RUN mkdir /appbuild
