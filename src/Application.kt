@@ -41,7 +41,7 @@ fun Application.module() {
 
     install(DefaultHeaders)
     install(CallLogging)
-    install(Routing)
+    //install(Routing)
     install(ContentNegotiation)
     {
         gson {
@@ -56,14 +56,14 @@ fun Application.module() {
                 )
         )
     }
-    val server = embeddedServer(Netty, 8080) {
+    val server = embeddedServer(Netty, 8081) {
         routing {
             get("/") {
-                call.respondText("Hello, world!", ContentType.Text.Html)
+                call.respondText("Hello, world!", ContentType.Text.Plain)
             }
         }
     }
-    server.start(wait = false)
+    server.start(wait = true)
 
 }
 
