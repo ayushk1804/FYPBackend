@@ -48,23 +48,23 @@ fun Application.module() {
             setPrettyPrinting()
         }
     }
-
-//    val server = embeddedServer(Netty, 8080) {
-//        routing {
-//            get("/") {
-//                call.respondText("Hello, world!", ContentType.Text.Html)
-//            }
-//        }
-//    }
-//    server.start(wait = false)
     CoroutineScope(Dispatchers.IO).launch {
         registerUser(
-            User(
-                "abc@abc.com",
-                "123456"
-            )
+                User(
+                        "abc@abc.com",
+                        "123456"
+                )
         )
     }
+    val server = embeddedServer(Netty, 8080) {
+        routing {
+            get("/") {
+                call.respondText("Hello, world!", ContentType.Text.Html)
+            }
+        }
+    }
+    server.start(wait = false)
+
 }
 
 //fun FlowOrMetaDataContent.styleCss(builder: CSSBuilder.() -> Unit) {

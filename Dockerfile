@@ -20,15 +20,6 @@
 #CMD ["java", "-server", "-XX:+UnlockExperimentalVMOptions", "-XX:+UseCGroupMemoryLimitForHeap", "-XX:InitialRAMFraction=2", "-XX:MinRAMFraction=2", "-XX:MaxRAMFraction=2", "-XX:+UseG1GC", "-XX:MaxGCPauseMillis=100", "-XX:+UseStringDeduplication", "-jar", "my-application.jar"]
 FROM openjdk:8 AS build
 
-RUN apk add --no-cache mongodb=4.0.2
-
-VOLUME /data/db
-EXPOSE 27017 28017
-
-COPY run.sh /root
-ENTRYPOINT [ "/root/run.sh" ]
-CMD [ "mongod", "--bind_ip", "0.0.0.0" ]
-
 RUN mkdir /appbuild
 COPY . /appbuild
 
