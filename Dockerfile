@@ -20,6 +20,15 @@
 #CMD ["java", "-server", "-XX:+UnlockExperimentalVMOptions", "-XX:+UseCGroupMemoryLimitForHeap", "-XX:InitialRAMFraction=2", "-XX:MinRAMFraction=2", "-XX:MaxRAMFraction=2", "-XX:+UseG1GC", "-XX:MaxGCPauseMillis=100", "-XX:+UseStringDeduplication", "-jar", "my-application.jar"]
 FROM openjdk:8 AS build
 
+RUN apk add --no-cache mongodb=4.0.2
+
+VOLUME /data/db
+EXPOSE 27017 28017
+
+COPY run.sh /root
+ENTRYPOINT [ "/root/run.sh" ]
+CMD [ "mongod", "--bind_ip", "0.0.0.0" ]
+
 RUN mkdir /appbuild
 COPY . /appbuild
 
@@ -39,8 +48,8 @@ RUN chmod -R 755 /app
 
 USER $APPLICATION_USER
 
-COPY --from=build /appbuild/build/libs/FYPBackend*all.jar /app/FYPBackend.jar
+COPY --from=build /appbuild/build/libs/demo*all.jar /app/demo.jar
 COPY --from=build /appbuild/resources/ /app/resources/
 WORKDIR /app
 
-CMD ["sh", "-c", "java -server -XX:+UnlockExperimentalVMOptions -XX:+UseCGroupMemoryLimitForHeap -XX:InitialRAMFraction=2 -XX:MinRAMFraction=2 -XX:MaxRAMFraction=2 -XX:+UseG1GC -XX:MaxGCPauseMillis=100 -XX:+UseStringDeduplication -jar FYPBackend.jar"]
+CMD ["sh", "-c", "java -server -XX:+UnlockExperimentalVMOptions -XX:+UseCGroupMemoryLimitForHeap -XX:InitialRAMFraction=2 -XX:MinRAMFraction=2 -XX:MaxRAMFraction=2 -XX:+UseG1GC -XX:MaxGCPauseMillis=100 -XX:+UseStringDeduplication -jar demo.jar"]
