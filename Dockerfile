@@ -40,7 +40,7 @@ RUN mkdir /app
 RUN chown -R $APPLICATION_USER /app
 
 USER $APPLICATION_USER
-RUN ["chown","-r","/data/db"]
+RUN ["chown", "$APPLICATION_USER$APPLICATION_USER","/data/db"]
 COPY ./build/libs/demo*all.jar /app/demo.jar
 
 WORKDIR /app
