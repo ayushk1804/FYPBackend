@@ -22,19 +22,20 @@
 
 FROM alpine:3.9
 ENV APPLICATION_USER 1033
+RUN adduser -D -g '' $APPLICATION_USER
 
 RUN apk add mongodb
 VOLUME /data/db
 EXPOSE 27017 28017
 #RUN ["chmod","-R","go+w","/data/db"]
-RUN chown -R $APPLICATION_USER /data/db
+RUN chown -R $APPLICATION_USER:$APPLICATION_USER /data/db
 
 
 
 RUN apk add openjdk8-jre
 
-ENV APPLICATION_USER 1033
-RUN adduser -D -g '' $APPLICATION_USER
+#ENV APPLICATION_USER 1033
+
 
 RUN mkdir /app
 RUN chown -R $APPLICATION_USER /app
