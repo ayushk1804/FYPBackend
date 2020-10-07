@@ -24,11 +24,14 @@ FROM alpine:3.9
 ENV APPLICATION_USER 1033
 RUN adduser -D -g '' $APPLICATION_USER
 
+RUN chmod -R go+w /data/db
+RUN chown -R $APPLICATION_USER:$APPLICATION_USER /data/db
+
 RUN apk add mongodb
 VOLUME /data/db
 EXPOSE 27017 28017
 #RUN ["chmod","-R","go+w","/data/db"]
-RUN chown -R $APPLICATION_USER:$APPLICATION_USER /data/db
+
 
 
 
