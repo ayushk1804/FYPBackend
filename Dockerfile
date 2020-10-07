@@ -65,7 +65,7 @@ CMD ["sh", "-c", "java -server -XX:+UnlockExperimentalVMOptions -XX:+UseCGroupMe
 #CMD ["java -jar demo.jar"]
 #FROM alpine:3.9
 
-RUN apk add mongodb
+##RUN apk add mongodb
 
 #VOLUME /data/db
 #EXPOSE 27017 28017
