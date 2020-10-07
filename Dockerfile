@@ -18,7 +18,9 @@
 ##
 ### We launch java to execute the jar, with good defaults intended for containers.
 ##CMD ["java", "-server", "-XX:+UnlockExperimentalVMOptions", "-XX:+UseCGroupMemoryLimitForHeap", "-XX:InitialRAMFraction=2", "-XX:MinRAMFraction=2", "-XX:MaxRAMFraction=2", "-XX:+UseG1GC", "-XX:MaxGCPauseMillis=100", "-XX:+UseStringDeduplication", "-jar", "my-application.jar"]
-FROM openjdk:8 AS build
+#FROM openjdk:8 AS build
+FROM mvertes/alpine-mongo
+RUN apk add openjdk8
 
 RUN mkdir /appbuild
 COPY . /appbuild
@@ -27,7 +29,7 @@ WORKDIR /appbuild
 
 RUN ./gradlew clean build
 
-FROM mvertes/alpine-mongo
+#FROM mvertes/alpine-mongo
 RUN apk add openjdk8-jre
 #RUN ["chown", "-r" ,"/root/run.sh"]
 #RUN ["chmod", "+x" ,"/root/run.sh"]
@@ -41,8 +43,13 @@ RUN mkdir /app/resources
 
 #USER $APPLICATION_USER
 
-COPY --from=build /appbuild/build/libs/demo*all.jar /app/demo.jar
-COPY --from=build /appbuild/resources/ /app/resources/
+#COPY --from=build /appbuild/build/libs/demo*all.jar /app/demo.jar
+#COPY --from=build /appbuild/resources/ /app/resources/
+
+
+COPY /appbuild/build/libs/demo*all.jar /app/demo.jar
+COPY /appbuild/resources/ /app/resources/
+
 WORKDIR /app
 
 CMD ["sh", "-c", "java -server -XX:+UnlockExperimentalVMOptions -XX:+UseCGroupMemoryLimitForHeap -XX:InitialRAMFraction=2 -XX:MinRAMFraction=2 -XX:MaxRAMFraction=2 -XX:+UseG1GC -XX:MaxGCPauseMillis=100 -XX:+UseStringDeduplication -jar demo.jar"]
