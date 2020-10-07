@@ -49,11 +49,12 @@ EXPOSE 27017 28017
 #
 #USER $APPLICATION_USER
 ##RUN chown $APPLICATION_USER:$APPLICATION_USER /data/db
-#COPY ./build/libs/demo*all.jar /app/demo.jar
+COPY ./build/libs/demo*all.jar /app/demo.jar
+CMD [ "mongod", "--bind_ip", "0.0.0.0" ]
 #
 #WORKDIR /app
 ##CMD ["sh", "-c", "java -server -XX:+UnlockExperimentalVMOptions -XX:+UseCGroupMemoryLimitForHeap -XX:InitialRAMFraction=2 -XX:MinRAMFraction=2 -XX:MaxRAMFraction=2 -XX:+UseG1GC -XX:MaxGCPauseMillis=100 -XX:+UseStringDeduplication -jar demo.jar"]
-CMD [ "mongod", "--bind_ip", "0.0.0.0" ]
+
 
 
 #RUN mkdir /appbuild
