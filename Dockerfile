@@ -1,6 +1,7 @@
 
 FROM alpine:3.9
 RUN apk add mongodb
+RUN apk add --no-cache python3
 VOLUME /data/db
 EXPOSE 27017 28017
 RUN apk add openjdk8-jre
