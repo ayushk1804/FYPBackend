@@ -27,7 +27,7 @@ RUN apk add mongodb
 VOLUME /data/db
 EXPOSE 27017 28017
 #RUN ["chmod","-R","go+w","/data/db"]
-
+RUN chown -R /data/db
 CMD [ "mongod", "--bind_ip", "0.0.0.0" ]
 
 
