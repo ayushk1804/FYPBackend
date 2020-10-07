@@ -45,7 +45,7 @@ RUN apk add openjdk8-jre
 #
 #
 #CMD [ "mongod", "--bind_ip", "0.0.0.0" ]
-RUN mongod --bind_ip 0.0.0.0
+#RUN mongod --bind_ip 0.0.0.0
 RUN mkdir /app
 #RUN chown -R $APPLICATION_USER /app
 #
@@ -55,8 +55,9 @@ COPY ./build/libs/demo*all.jar /app/demo.jar
 
 #
 WORKDIR /app
+RUN mongod --bind_ip 0.0.0.0
 #CMD ["sh", "-c", "java -server -XX:+UnlockExperimentalVMOptions -XX:+UseCGroupMemoryLimitForHeap -XX:InitialRAMFraction=2 -XX:MinRAMFraction=2 -XX:MaxRAMFraction=2 -XX:+UseG1GC -XX:MaxGCPauseMillis=100 -XX:+UseStringDeduplication -jar demo.jar"]
-#RUN java -server -XX:+UnlockExperimentalVMOptions -XX:+UseCGroupMemoryLimitForHeap -XX:InitialRAMFraction=2 -XX:MinRAMFraction=2 -XX:MaxRAMFraction=2 -XX:+UseG1GC -XX:MaxGCPauseMillis=100 -XX:+UseStringDeduplication -jar demo.jar
+RUN java -server -XX:+UnlockExperimentalVMOptions -XX:+UseCGroupMemoryLimitForHeap -XX:InitialRAMFraction=2 -XX:MinRAMFraction=2 -XX:MaxRAMFraction=2 -XX:+UseG1GC -XX:MaxGCPauseMillis=100 -XX:+UseStringDeduplication -jar demo.jar
 
 
 
