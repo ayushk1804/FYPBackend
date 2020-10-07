@@ -42,7 +42,7 @@ RUN mkdir /app/resources
 RUN chown -R $APPLICATION_USER /app
 RUN chmod -R 777 /app
 
-USER $APPLICATION_USER
+#USER $APPLICATION_USER
 
 COPY --from=build /appbuild/build/libs/demo*all.jar /app/demo.jar
 COPY --from=build /appbuild/resources/ /app/resources/
@@ -53,4 +53,5 @@ COPY --from=build /appbuild/resources/ /app/resources/
 
 WORKDIR /app
 
-CMD ["sh", "-c", "java -server -XX:+UnlockExperimentalVMOptions -XX:+UseCGroupMemoryLimitForHeap -XX:InitialRAMFraction=2 -XX:MinRAMFraction=2 -XX:MaxRAMFraction=2 -XX:+UseG1GC -XX:MaxGCPauseMillis=100 -XX:+UseStringDeduplication -jar demo.jar"]
+#CMD ["sh", "-c", "java -server -XX:+UnlockExperimentalVMOptions -XX:+UseCGroupMemoryLimitForHeap -XX:InitialRAMFraction=2 -XX:MinRAMFraction=2 -XX:MaxRAMFraction=2 -XX:+UseG1GC -XX:MaxGCPauseMillis=100 -XX:+UseStringDeduplication -jar demo.jar"]
+CMD ["java -jar demo.jar"]
