@@ -26,7 +26,8 @@ RUN apk add mongodb
 
 VOLUME /data/db
 EXPOSE 27017 28017
-RUN ["chmod","-R","go+w","/data/db"]
+#RUN ["chmod","-R","go+w","/data/db"]
+
 CMD [ "mongod", "--bind_ip", "0.0.0.0" ]
 
 
@@ -39,6 +40,7 @@ RUN mkdir /app
 RUN chown -R $APPLICATION_USER /app
 
 USER $APPLICATION_USER
+RUN ["chown","-r","/data/db"]
 COPY ./build/libs/demo*all.jar /app/demo.jar
 
 WORKDIR /app
