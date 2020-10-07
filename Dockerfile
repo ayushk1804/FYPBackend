@@ -55,13 +55,13 @@
 #
 #CMD ["sh", "-c", "java -server -XX:+UnlockExperimentalVMOptions -XX:+UseCGroupMemoryLimitForHeap -XX:InitialRAMFraction=2 -XX:MinRAMFraction=2 -XX:MaxRAMFraction=2 -XX:+UseG1GC -XX:MaxGCPauseMillis=100 -XX:+UseStringDeduplication -jar demo.jar"]
 ##CMD ["java -jar demo.jar"]
-FROM alpine:edge
+FROM alpine:community
 
-RUN apk add --no-cache mongodb
+RUN apk add mongodb
 
 VOLUME /data/db
 EXPOSE 27017 28017
 
-COPY run.sh /root
-ENTRYPOINT [ "/root/run.sh" ]
+#COPY run.sh /root
+#ENTRYPOINT [ "/root/run.sh" ]
 CMD [ "mongod", "--bind_ip", "0.0.0.0" ]
