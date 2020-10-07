@@ -21,12 +21,13 @@
 
 
 FROM alpine:3.9
+ENV APPLICATION_USER 1033
 
 RUN apk add mongodb
 VOLUME /data/db
 EXPOSE 27017 28017
 #RUN ["chmod","-R","go+w","/data/db"]
-RUN chown -R mongod:mongod /data/db
+RUN chown -R $APPLICATION_USER /data/db
 
 
 
