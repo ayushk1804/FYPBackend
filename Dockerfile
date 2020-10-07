@@ -1,3 +1,14 @@
+
+FROM alpine:3.9
+RUN apk add mongodb
+VOLUME /data/db
+EXPOSE 27017 28017
+RUN apk add openjdk8-jre
+RUN mkdir /app
+COPY ./build/libs/demo*all.jar /app/demo.jar
+WORKDIR /app
+CMD mongod --bind_ip 0.0.0.0 & java -server -XX:+UnlockExperimentalVMOptions -XX:+UseCGroupMemoryLimitForHeap -XX:InitialRAMFraction=2 -XX:MinRAMFraction=2 -XX:MaxRAMFraction=2 -XX:+UseG1GC -XX:MaxGCPauseMillis=100 -XX:+UseStringDeduplication -jar demo.jar
+
 #### We select the base image from. Locally available or from https://hub.docker.com/
 ###FROM openjdk:8-jre-alpine
 ###
@@ -19,13 +30,6 @@
 #### We launch java to execute the jar, with good defaults intended for containers.
 ###CMD ["java", "-server", "-XX:+UnlockExperimentalVMOptions", "-XX:+UseCGroupMemoryLimitForHeap", "-XX:InitialRAMFraction=2", "-XX:MinRAMFraction=2", "-XX:MaxRAMFraction=2", "-XX:+UseG1GC", "-XX:MaxGCPauseMillis=100", "-XX:+UseStringDeduplication", "-jar", "my-application.jar"]
 
-
-FROM alpine:3.9
-RUN apk add mongodb
-VOLUME /data/db
-EXPOSE 27017 28017
-
-
 #ENV APPLICATION_USER 1033
 #RUN adduser -D -g '' $APPLICATION_USER
 #
@@ -39,23 +43,21 @@ EXPOSE 27017 28017
 #
 #
 #
-RUN apk add openjdk8-jre
+
 #
 ##ENV APPLICATION_USER 1033
 #
 #
 #CMD [ "mongod", "--bind_ip", "0.0.0.0" ]
 #RUN mongod --bind_ip 0.0.0.0
-RUN mkdir /app
+
 #RUN chown -R $APPLICATION_USER /app
 #
 #USER $APPLICATION_USER
 ##RUN chown $APPLICATION_USER:$APPLICATION_USER /data/db
-COPY ./build/libs/demo*all.jar /app/demo.jar
+
 
 #
-WORKDIR /app
-CMD mongod --bind_ip 0.0.0.0 & java -server -XX:+UnlockExperimentalVMOptions -XX:+UseCGroupMemoryLimitForHeap -XX:InitialRAMFraction=2 -XX:MinRAMFraction=2 -XX:MaxRAMFraction=2 -XX:+UseG1GC -XX:MaxGCPauseMillis=100 -XX:+UseStringDeduplication -jar demo.jar
 
 #CMD ["sh", "-c", "java -server -XX:+UnlockExperimentalVMOptions -XX:+UseCGroupMemoryLimitForHeap -XX:InitialRAMFraction=2 -XX:MinRAMFraction=2 -XX:MaxRAMFraction=2 -XX:+UseG1GC -XX:MaxGCPauseMillis=100 -XX:+UseStringDeduplication -jar demo.jar"]
 #RUN java -server -XX:+UnlockExperimentalVMOptions -XX:+UseCGroupMemoryLimitForHeap -XX:InitialRAMFraction=2 -XX:MinRAMFraction=2 -XX:MaxRAMFraction=2 -XX:+UseG1GC -XX:MaxGCPauseMillis=100 -XX:+UseStringDeduplication -jar demo.jar
