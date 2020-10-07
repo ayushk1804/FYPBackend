@@ -20,9 +20,15 @@
 ###CMD ["java", "-server", "-XX:+UnlockExperimentalVMOptions", "-XX:+UseCGroupMemoryLimitForHeap", "-XX:InitialRAMFraction=2", "-XX:MinRAMFraction=2", "-XX:MaxRAMFraction=2", "-XX:+UseG1GC", "-XX:MaxGCPauseMillis=100", "-XX:+UseStringDeduplication", "-jar", "my-application.jar"]
 
 FROM alpine:3.9
-RUN apk add mongodb
 
-FROM openjdk:8 AS build
+RUN apk add mongodb
+VOLUME /data/db
+EXPOSE 27017 28017
+CMD [ "mongod", "--bind_ip", "0.0.0.0" ]
+
+RUN apk add openjdk8
+RUN apk add openjdk8-jre
+#FROM openjdk:8 AS build
 #FROM mvertes/alpine-mongo
 #RUN apk add openjdk8
 
@@ -35,7 +41,7 @@ WORKDIR /appbuild
 RUN ./gradlew clean build
 
 FROM mvertes/alpine-mongo
-RUN apk add openjdk8-jre
+#RUN apk add openjdk8-jre
 #RUN ["chown", "-r" ,"/root/run.sh"]
 #RUN ["chmod", "+x" ,"/root/run.sh"]
 ENV APPLICATION_USER 1033
@@ -48,17 +54,15 @@ RUN chmod -R 777 /app
 
 #USER $APPLICATION_USER
 
-COPY --from=build /appbuild/build/libs/demo*all.jar /app/demo.jar
-COPY --from=build /appbuild/resources/ /app/resources/
+COPY /appbuild/build/libs/demo*all.jar /app/demo.jar
+COPY /appbuild/resources/ /app/resources/
 
 
 #COPY /appbuild/build/libs/demo*all.jar /app/demo.jar
 #COPY /appbuild/resources/ /app/resources/
 
 WORKDIR /app
-VOLUME /data/db
-EXPOSE 27017 28017
-CMD [ "mongod", "--bind_ip", "0.0.0.0" ]
+
 CMD ["sh", "-c", "java -server -XX:+UnlockExperimentalVMOptions -XX:+UseCGroupMemoryLimitForHeap -XX:InitialRAMFraction=2 -XX:MinRAMFraction=2 -XX:MaxRAMFraction=2 -XX:+UseG1GC -XX:MaxGCPauseMillis=100 -XX:+UseStringDeduplication -jar demo.jar"]
 #CMD ["java -jar demo.jar"]
 #FROM alpine:3.9
