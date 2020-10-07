@@ -24,7 +24,6 @@ FROM alpine:3.9
 RUN apk add mongodb
 VOLUME /data/db
 EXPOSE 27017 28017
-RUN chown -R $APPLICATION_USER /data/db
 
 
 #ENV APPLICATION_USER 1033
