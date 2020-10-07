@@ -27,7 +27,7 @@ WORKDIR /appbuild
 
 RUN ./gradlew clean build
 
-mvertes/alpine-mongo
+FROM mvertes/alpine-mongo
 RUN apk add openjdk8-jre
 #RUN ["chown", "-r" ,"/root/run.sh"]
 #RUN ["chmod", "+x" ,"/root/run.sh"]
