@@ -21,18 +21,35 @@
 
 
 FROM alpine:3.9
-RUN apk add mongodb
 
+RUN apk add mongodb
 VOLUME /data/db
 EXPOSE 27017 28017
 CMD [ "mongod", "--bind_ip", "0.0.0.0" ]
 
-#FROM openjdk:8 AS build
-#FROM mvertes/alpine-mongo
-#RUN apk add openjdk8
+
+RUN apk add openjdk8-jre
+
+ENV APPLICATION_USER 1033
+RUN adduser -D -g '' $APPLICATION_USER
+
+RUN mkdir /app
+RUN chown -R $APPLICATION_USER /app
+
+USER $APPLICATION_USER
+COPY ./build/libs/demo*all.jar /app/demo.jar
+
+WORKDIR /app
+CMD ["sh", "-c", "java -server -XX:+UnlockExperimentalVMOptions -XX:+UseCGroupMemoryLimitForHeap -XX:InitialRAMFraction=2 -XX:MinRAMFraction=2 -XX:MaxRAMFraction=2 -XX:+UseG1GC -XX:MaxGCPauseMillis=100 -XX:+UseStringDeduplication -jar demo.jar"]
+
+
 
 #RUN mkdir /appbuild
-#COPY . /appbuild
+
+
+
+#FROM openjdk:8 AS build
+#FROM mvertes/alpine-mongo
 #
 #WORKDIR /appbuild
 #
@@ -42,8 +59,7 @@ CMD [ "mongod", "--bind_ip", "0.0.0.0" ]
 ##RUN apk add openjdk8-jre
 ##RUN ["chown", "-r" ,"/root/run.sh"]
 ##RUN ["chmod", "+x" ,"/root/run.sh"]
-#ENV APPLICATION_USER 1033
-#RUN adduser -D -g '' $APPLICATION_USER
+
 #
 #RUN mkdir /app
 #RUN mkdir /app/resources
