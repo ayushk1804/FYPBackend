@@ -18,10 +18,10 @@
 ##
 ### We launch java to execute the jar, with good defaults intended for containers.
 ##CMD ["java", "-server", "-XX:+UnlockExperimentalVMOptions", "-XX:+UseCGroupMemoryLimitForHeap", "-XX:InitialRAMFraction=2", "-XX:MinRAMFraction=2", "-XX:MaxRAMFraction=2", "-XX:+UseG1GC", "-XX:MaxGCPauseMillis=100", "-XX:+UseStringDeduplication", "-jar", "my-application.jar"]
-#FROM openjdk:8 AS build
-FROM mvertes/alpine-mongo
-RUN apk add openjdk8
-RUN apk add openjdk8-jre
+FROM openjdk:8 AS build
+#FROM mvertes/alpine-mongo
+#RUN apk add openjdk8
+
 
 RUN mkdir /appbuild
 COPY . /appbuild
@@ -30,26 +30,26 @@ WORKDIR /appbuild
 
 RUN ./gradlew clean build
 
-#FROM mvertes/alpine-mongo
-
+FROM mvertes/alpine-mongo
+RUN apk add openjdk8-jre
 #RUN ["chown", "-r" ,"/root/run.sh"]
 #RUN ["chmod", "+x" ,"/root/run.sh"]
-#ENV APPLICATION_USER 1033
-#RUN adduser -D -g '' $APPLICATION_USER
+ENV APPLICATION_USER 1033
+RUN adduser -D -g '' $APPLICATION_USER
 
 RUN mkdir /app
 RUN mkdir /app/resources
-#RUN chown -R $APPLICATION_USER /app
-#RUN chmod -R 755 /app
+RUN chown -R $APPLICATION_USER /app
+RUN chmod -R 777 /app
 
-#USER $APPLICATION_USER
+USER $APPLICATION_USER
 
-#COPY --from=build /appbuild/build/libs/demo*all.jar /app/demo.jar
-#COPY --from=build /appbuild/resources/ /app/resources/
+COPY --from=build /appbuild/build/libs/demo*all.jar /app/demo.jar
+COPY --from=build /appbuild/resources/ /app/resources/
 
 
-COPY /appbuild/build/libs/demo*all.jar /app/demo.jar
-COPY /appbuild/resources/ /app/resources/
+#COPY /appbuild/build/libs/demo*all.jar /app/demo.jar
+#COPY /appbuild/resources/ /app/resources/
 
 WORKDIR /app
 
