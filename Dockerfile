@@ -1,6 +1,6 @@
 
 FROM ubuntu
-RUN apt-get install python3
+#RUN apt-get install python
 #RUN apt-get update
 #RUN apt-get install openjdk-8-jre
 #RUN apk add mongodb
