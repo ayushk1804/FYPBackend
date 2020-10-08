@@ -1,5 +1,7 @@
 
-FROM python
+FROM ubuntu
+#RUN apt install -y software-properties-common
+#RUN apt install python3.8
 #RUN apt-get install python
 #RUN apt-get update
 #RUN apt-get install openjdk-8-jre
@@ -9,8 +11,10 @@ FROM python
 #EXPOSE 27017 28017
 #RUN apk add openjdk8-jre
 RUN mkdir /app
+COPY start.sh /app/
 COPY ./build/libs/demo*all.jar /app/demo.jar
 WORKDIR /app
+ENTRYPOINT ["/app/start.sh"]
 #CMD mongod --bind_ip 0.0.0.0 & java -server -XX:+UnlockExperimentalVMOptions -XX:+UseCGroupMemoryLimitForHeap -XX:InitialRAMFraction=2 -XX:MinRAMFraction=2 -XX:MaxRAMFraction=2 -XX:+UseG1GC -XX:MaxGCPauseMillis=100 -XX:+UseStringDeduplication -jar demo.jar
 #CMD java -server -XX:+UnlockExperimentalVMOptions -XX:+UseCGroupMemoryLimitForHeap -XX:InitialRAMFraction=2 -XX:MinRAMFraction=2 -XX:MaxRAMFraction=2 -XX:+UseG1GC -XX:MaxGCPauseMillis=100 -XX:+UseStringDeduplication -jar demo.jar
 
