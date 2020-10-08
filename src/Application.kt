@@ -48,14 +48,14 @@ fun Application.module() {
             setPrettyPrinting()
         }
     }
-//    CoroutineScope(Dispatchers.IO).launch {
-//        registerUser(
-//                User(
-//                        "abc@abc.com",
-//                        "123456"
-//                )
-//        )
-//    }
+    CoroutineScope(Dispatchers.IO).launch {
+        registerUser(
+                User(
+                        "abc@abc.com",
+                        "123456"
+                )
+        )
+    }
     val server = embeddedServer(Netty, 8081) {
         routing {
             get("/") {
