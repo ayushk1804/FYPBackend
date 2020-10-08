@@ -4,7 +4,7 @@
 #apt-get -y install tzdata
 #echo "Asia/Kolkata" | tee /etc/timezone
 #dpkg-reconfigure --frontend noninteractive tzdata
-apt-get install -y openjdk-8-jdk
+#apt-get install -y openjdk-8-jdk
 #apt-get install -y gnupg
 #apt-get install -y wget
 #apt-get install -y sudo

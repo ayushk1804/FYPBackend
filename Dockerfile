@@ -4,6 +4,7 @@ FROM ubuntu
 RUN apt-get update
 ENV DEBIAN_FRONTEND=noninteractive
 RUN apt-get -y install tzdata
+RUN apt-get -y install apt-utils
 RUN echo "Asia/Kolkata" | tee /etc/timezone
 RUN dpkg-reconfigure --frontend noninteractive tzdata
 RUN apt-get install -y gnupg
