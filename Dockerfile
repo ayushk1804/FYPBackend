@@ -1,5 +1,6 @@
 
-FROM openjdk:8
+FROM debian
+RUN apt-get install openjdk-8-jre
 #RUN apk add mongodb
 #RUN apk add --no-cache python3
 #VOLUME /data/db
