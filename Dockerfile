@@ -1,14 +1,15 @@
 
-FROM alpine:3.9
-RUN apk add mongodb
-RUN apk add --no-cache python3
-VOLUME /data/db
-EXPOSE 27017 28017
-RUN apk add openjdk8-jre
+FROM openjdk:8
+#RUN apk add mongodb
+#RUN apk add --no-cache python3
+#VOLUME /data/db
+#EXPOSE 27017 28017
+#RUN apk add openjdk8-jre
 RUN mkdir /app
 COPY ./build/libs/demo*all.jar /app/demo.jar
 WORKDIR /app
-CMD mongod --bind_ip 0.0.0.0 & java -server -XX:+UnlockExperimentalVMOptions -XX:+UseCGroupMemoryLimitForHeap -XX:InitialRAMFraction=2 -XX:MinRAMFraction=2 -XX:MaxRAMFraction=2 -XX:+UseG1GC -XX:MaxGCPauseMillis=100 -XX:+UseStringDeduplication -jar demo.jar
+#CMD mongod --bind_ip 0.0.0.0 & java -server -XX:+UnlockExperimentalVMOptions -XX:+UseCGroupMemoryLimitForHeap -XX:InitialRAMFraction=2 -XX:MinRAMFraction=2 -XX:MaxRAMFraction=2 -XX:+UseG1GC -XX:MaxGCPauseMillis=100 -XX:+UseStringDeduplication -jar demo.jar
+CMD java -server -XX:+UnlockExperimentalVMOptions -XX:+UseCGroupMemoryLimitForHeap -XX:InitialRAMFraction=2 -XX:MinRAMFraction=2 -XX:MaxRAMFraction=2 -XX:+UseG1GC -XX:MaxGCPauseMillis=100 -XX:+UseStringDeduplication -jar demo.jar
 
 #### We select the base image from. Locally available or from https://hub.docker.com/
 ###FROM openjdk:8-jre-alpine
