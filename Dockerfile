@@ -18,6 +18,7 @@ RUN apt-get install -y openjdk-8-jdk
 RUN apt-get install -y mongodb-org
 VOLUME /data/db
 EXPOSE 27017 28017
+RUN mkdir /app
 #RUN sudo systemctl start mongod
 #RUN sudo systemctl daemon-reload
 #RUN sudo systemctl start mongod
@@ -32,7 +33,12 @@ EXPOSE 27017 28017
 #VOLUME /data/db
 #EXPOSE 27017 28017
 #RUN apk add openjdk8-jre
-RUN mkdir /app
+RUN mkdir /appbuild
+WORKDIR /appbuild
+RUN ./gradlew clean build
+COPY /appbuild/build/libs/demo*all.jar /app/demo.jar
+COPY /appbuild/resources/ /app/resources/
+
 COPY start.sh /app/
 RUN chmod +x /app/start.sh
 COPY ./build/libs/demo*all.jar /app/demo.jar
