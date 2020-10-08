@@ -35,9 +35,12 @@ RUN mkdir /app
 #RUN apk add openjdk8-jre
 RUN mkdir /appbuild
 WORKDIR /appbuild
-RUN ./gradlew clean build
-COPY /appbuild/build/libs/demo*all.jar /app/demo.jar
-COPY /appbuild/resources/ /app/resources/
+#FROM openjdk:8 AS build
+#RUN ./gradlew clean build
+#COPY /appbuild/build/libs/demo*all.jar /app/demo.jar
+#COPY /appbuild/resources/ /app/resources/
+#COPY --from=build /appbuild/build/libs/KtorEasy*all.jar /app/KtorEasy.jar
+#COPY --from=build /appbuild/resources/ /app/resources/
 
 COPY start.sh /app/
 RUN chmod +x /app/start.sh
