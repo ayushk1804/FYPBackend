@@ -14,6 +14,11 @@ RUN apt-get install -y systemctl
 RUN wget -qO - https://www.mongodb.org/static/pgp/server-4.4.asc | sudo apt-key add -
 RUN echo "deb [ arch=amd64,arm64 ] https://repo.mongodb.org/apt/ubuntu focal/mongodb-org/4.4 multiverse" | sudo tee /etc/apt/sources.list.d/mongodb-org-4.4.list
 RUN apt-get update
+RUN apt-get install -y openjdk-8-jdk
+RUN apt-get install -y mongodb-org
+RUN systemctl start mongod
+RUN systemctl daemon-reload
+RUN systemctl start mongod
 
 #RUN apt install -y software-properties-common
 #RUN apt install python3.8
