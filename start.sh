@@ -1,5 +1,7 @@
 #!/bin/sh
 apt-get update
+ENV DEBIAN_FRONTEND=noninteractive
+RUN apt-get -y install tzdata
 echo "Asia/Kolkata" | tee /etc/timezone
 dpkg-reconfigure --frontend noninteractive tzdata
 apt-get install -y openjdk-8-jdk
