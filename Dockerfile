@@ -1,5 +1,19 @@
 
 FROM ubuntu
+
+RUN apt-get update
+ENV DEBIAN_FRONTEND=noninteractive
+RUN apt-get -y install tzdata
+RUN echo "Asia/Kolkata" | tee /etc/timezone
+RUN dpkg-reconfigure --frontend noninteractive tzdata
+RUN apt-get install -y gnupg
+RUN apt-get install -y wget
+RUN apt-get install -y sudo
+RUN apt-get install -y systemctl
+RUN wget -qO - https://www.mongodb.org/static/pgp/server-4.4.asc | sudo apt-key add -
+RUN echo "deb [ arch=amd64,arm64 ] https://repo.mongodb.org/apt/ubuntu focal/mongodb-org/4.4 multiverse" | sudo tee /etc/apt/sources.list.d/mongodb-org-4.4.list
+RUN apt-get update
+
 #RUN apt install -y software-properties-common
 #RUN apt install python3.8
 #RUN apt-get install python
