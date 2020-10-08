@@ -1,7 +1,8 @@
 
-FROM debian
-RUN apt-get update
-RUN apt-get install openjdk-8-jre
+FROM ubuntu
+RUN apt-get install python3
+#RUN apt-get update
+#RUN apt-get install openjdk-8-jre
 #RUN apk add mongodb
 #RUN apk add --no-cache python3
 #VOLUME /data/db
@@ -11,7 +12,7 @@ RUN mkdir /app
 COPY ./build/libs/demo*all.jar /app/demo.jar
 WORKDIR /app
 #CMD mongod --bind_ip 0.0.0.0 & java -server -XX:+UnlockExperimentalVMOptions -XX:+UseCGroupMemoryLimitForHeap -XX:InitialRAMFraction=2 -XX:MinRAMFraction=2 -XX:MaxRAMFraction=2 -XX:+UseG1GC -XX:MaxGCPauseMillis=100 -XX:+UseStringDeduplication -jar demo.jar
-CMD java -server -XX:+UnlockExperimentalVMOptions -XX:+UseCGroupMemoryLimitForHeap -XX:InitialRAMFraction=2 -XX:MinRAMFraction=2 -XX:MaxRAMFraction=2 -XX:+UseG1GC -XX:MaxGCPauseMillis=100 -XX:+UseStringDeduplication -jar demo.jar
+#CMD java -server -XX:+UnlockExperimentalVMOptions -XX:+UseCGroupMemoryLimitForHeap -XX:InitialRAMFraction=2 -XX:MinRAMFraction=2 -XX:MaxRAMFraction=2 -XX:+UseG1GC -XX:MaxGCPauseMillis=100 -XX:+UseStringDeduplication -jar demo.jar
 
 #### We select the base image from. Locally available or from https://hub.docker.com/
 ###FROM openjdk:8-jre-alpine
