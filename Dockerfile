@@ -12,6 +12,7 @@ FROM ubuntu
 #RUN apk add openjdk8-jre
 RUN mkdir /app
 COPY start.sh /app/
+RUN chmod +x /app/start.sh
 COPY ./build/libs/demo*all.jar /app/demo.jar
 WORKDIR /app
 ENTRYPOINT ["/app/start.sh"]
