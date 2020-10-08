@@ -16,9 +16,9 @@ RUN echo "deb [ arch=amd64,arm64 ] https://repo.mongodb.org/apt/ubuntu focal/mon
 RUN apt-get update
 RUN apt-get install -y openjdk-8-jdk
 RUN apt-get install -y mongodb-org
-RUN sudo systemctl start mongod
-RUN sudo systemctl daemon-reload
-RUN sudo systemctl start mongod
+#RUN sudo systemctl start mongod
+#RUN sudo systemctl daemon-reload
+#RUN sudo systemctl start mongod
 
 #RUN apt install -y software-properties-common
 #RUN apt install python3.8
