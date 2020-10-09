@@ -1,5 +1,5 @@
 
-FROM ubuntu
+FROM debian:stable-slim
 
 RUN apt-get update
 ENV DEBIAN_FRONTEND=noninteractive
