@@ -1,12 +1,12 @@
 
-FROM debian:stable-slim
+FROM ubuntu
 
 RUN apt-get update
-ENV DEBIAN_FRONTEND=noninteractive
+ENV DEBIAN_FRONTEND noninteractive
 RUN apt-get -y install tzdata
 RUN apt-get -y install apt-utils
-RUN echo "Asia/Kolkata" | tee /etc/timezone
-RUN dpkg-reconfigure --frontend noninteractive tzdata
+#RUN echo "Asia/Kolkata" | tee /etc/timezone
+#RUN dpkg-reconfigure --frontend noninteractive tzdata
 RUN apt-get install -y gnupg
 RUN apt-get install -y wget
 RUN apt-get install -y sudo
@@ -48,6 +48,7 @@ RUN chmod +x /app/start.sh
 COPY demo.jar /app/
 RUN chmod +x /app/demo.jar
 WORKDIR /app
+ENV DEBIAN_FRONTEND teletype
 #ENTRYPOINT ["/app/start.sh"]
 #CMD mongod --bind_ip 0.0.0.0 & java -server -XX:+UnlockExperimentalVMOptions -XX:+UseCGroupMemoryLimitForHeap -XX:InitialRAMFraction=2 -XX:MinRAMFraction=2 -XX:MaxRAMFraction=2 -XX:+UseG1GC -XX:MaxGCPauseMillis=100 -XX:+UseStringDeduplication -jar demo.jar
 #CMD java -server -XX:+UnlockExperimentalVMOptions -XX:+UseCGroupMemoryLimitForHeap -XX:InitialRAMFraction=2 -XX:MinRAMFraction=2 -XX:MaxRAMFraction=2 -XX:+UseG1GC -XX:MaxGCPauseMillis=100 -XX:+UseStringDeduplication -jar demo.jar
