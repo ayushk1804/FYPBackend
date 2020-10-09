@@ -34,7 +34,7 @@ RUN apt-get install -y mongodb-org
 #MongoDB operates at "/data/db" by defaults and these folders aren't created by default
 #We are creating the folder and taking ownership[chown... command] so that mongodb can write to it
 RUN mkdir -p /data/db
-RUN chmod 700 /data/db
+RUN chmod 777 /data/db
 
 #Creating some Directories to copy jar files and execute it from this folder
 RUN mkdir /app
