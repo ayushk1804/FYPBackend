@@ -56,7 +56,8 @@ fun Application.module() {
                 )
         )
     }
-    val server = embeddedServer(Netty, 8080) {
+    val port = System.getenv("PORT")?.toInt() ?: 8080
+    val server = embeddedServer(Netty, port) {
         routing {
             get("/") {
                 call.respondText("Hello, world! Vishwa", ContentType.Text.Plain)

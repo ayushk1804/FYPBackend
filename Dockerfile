@@ -14,10 +14,11 @@ RUN apt-get install -y systemctl
 RUN wget -qO - https://www.mongodb.org/static/pgp/server-4.4.asc | sudo apt-key add -
 RUN echo "deb [ arch=amd64,arm64 ] https://repo.mongodb.org/apt/ubuntu focal/mongodb-org/4.4 multiverse" | sudo tee /etc/apt/sources.list.d/mongodb-org-4.4.list
 RUN apt-get update
-RUN apt-get install -y openjdk-8-jdk
+RUN apt-get install -y openjdk-8-jre
 RUN apt-get install -y mongodb-org
-VOLUME /data/db
-EXPOSE 27017 28017
+RUN mkdir -p /data/db
+RUN chmod 700 /data/db
+
 RUN mkdir /app
 #RUN sudo systemctl start mongod
 #RUN sudo systemctl daemon-reload
@@ -44,13 +45,13 @@ WORKDIR /appbuild
 
 COPY start.sh /app/
 RUN chmod +x /app/start.sh
-#COPY ./build/libs/demo*all.jar /app/demo.jar
-COPY demo.jar /app/
+COPY ./build/libs/demo*all.jar /app/demo.jar
+#COPY demo.jar /app/
 RUN chmod +x /app/demo.jar
 WORKDIR /app
 ENV DEBIAN_FRONTEND teletype
 #ENTRYPOINT ["/app/start.sh"]
-#CMD mongod --bind_ip 0.0.0.0 & java -server -XX:+UnlockExperimentalVMOptions -XX:+UseCGroupMemoryLimitForHeap -XX:InitialRAMFraction=2 -XX:MinRAMFraction=2 -XX:MaxRAMFraction=2 -XX:+UseG1GC -XX:MaxGCPauseMillis=100 -XX:+UseStringDeduplication -jar demo.jar
+CMD mongod --bind_ip 0.0.0.0 & java -server -XX:+UnlockExperimentalVMOptions -XX:+UseCGroupMemoryLimitForHeap -XX:InitialRAMFraction=2 -XX:MinRAMFraction=2 -XX:MaxRAMFraction=2 -XX:+UseG1GC -XX:MaxGCPauseMillis=100 -XX:+UseStringDeduplication -jar demo.jar
 #CMD java -server -XX:+UnlockExperimentalVMOptions -XX:+UseCGroupMemoryLimitForHeap -XX:InitialRAMFraction=2 -XX:MinRAMFraction=2 -XX:MaxRAMFraction=2 -XX:+UseG1GC -XX:MaxGCPauseMillis=100 -XX:+UseStringDeduplication -jar demo.jar
 
 #### We select the base image from. Locally available or from https://hub.docker.com/
