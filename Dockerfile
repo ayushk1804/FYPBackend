@@ -17,6 +17,7 @@ RUN apt-get install -y sudo
 
 #Installing rclone
 RUN curl https://rclone.org/install.sh | sudo bash
+RUN apt-get install -y fuse
 
 #systemctl software suite that provides an array of system components for Linux operating systems
 #It maybe used to start mongodb
@@ -36,8 +37,15 @@ RUN apt-get install -y mongodb-org
 RUN mkdir -p /data/db
 RUN chmod 777 /data/db
 
+#Making datacopy directory
+RUN mkdir -p /data-copy
+
 #Creating some Directories to copy jar files and execute it from this folder
 RUN mkdir /app
+
+#Copy config files
+COPY rclone.conf /
+RUN chmod +x /rclone.conf
 
 #[Optional]Created a general shell and aquired ownership script which can be used to run taks
 COPY start.sh /app/
@@ -52,4 +60,4 @@ WORKDIR /app
 
 #CMD statements are executed at run time
 #This statement starts the mongodb server and binds to 0.0.0.0[localhost] and starts the ktor application
-CMD mongod --bind_ip 0.0.0.0 & java -server -XX:+UnlockExperimentalVMOptions -XX:+UseCGroupMemoryLimitForHeap -XX:InitialRAMFraction=2 -XX:MinRAMFraction=2 -XX:MaxRAMFraction=2 -XX:+UseG1GC -XX:MaxGCPauseMillis=100 -XX:+UseStringDeduplication -jar demo.jar
+#CMD mongod --bind_ip 0. 0.0.0 & java -server -XX:+UnlockExperimentalVMOptions -XX:+UseCGroupMemoryLimitForHeap -XX:InitialRAMFraction=2 -XX:MinRAMFraction=2 -XX:MaxRAMFraction=2 -XX:+UseG1GC -XX:MaxGCPauseMillis=100 -XX:+UseStringDeduplication -jar demo.jar
