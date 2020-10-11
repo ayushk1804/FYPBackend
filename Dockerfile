@@ -16,7 +16,7 @@ RUN apt-get install -y curl \
                        wget \
                        sudo \
                        fuse \
-                       systemctl \  
+                       systemctl  
 #Installing rclone
 RUN curl https://rclone.org/install.sh | sudo bash
 
