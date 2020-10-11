@@ -9,19 +9,18 @@ RUN apt-get update
 RUN apt-get -y install tzdata
 
 #Some necessary packages to install mongoDB,java-jre and rclone
-RUN apt-get install -y curl
-RUN apt-get install -y unzip
-RUN apt-get install -y gnupg
-RUN apt-get install -y wget
-RUN apt-get install -y sudo
-
+#systemctl software suite that provides an array of system components for Linux operating systems
+RUN apt-get install -y curl \
+                       unzip \
+                       gnupg \
+                       wget \
+                       sudo \
+                       fuse \
+                       systemctl  
 #Installing rclone
 RUN curl https://rclone.org/install.sh | sudo bash
-RUN apt-get install -y fuse
 
-#systemctl software suite that provides an array of system components for Linux operating systems
 #It maybe used to start mongodb
-RUN apt-get install -y systemctl
 
 #Installing only Java-Runtime to run java applications[jar files]
 RUN apt-get install -y openjdk-8-jre
@@ -44,8 +43,8 @@ RUN mkdir -p /data-copy
 RUN mkdir /app
 
 #Copy config files
-COPY rclone.conf /
-RUN chmod +x /rclone.conf
+COPY rclone.conf /root/.config/rclone/
+RUN chmod +x /root/.config/rclone/rclone.conf
 
 #[Optional]Created a general shell and aquired ownership script which can be used to run taks
 COPY start.sh /app/
